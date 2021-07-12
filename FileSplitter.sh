@@ -11,7 +11,9 @@ lines=$(wc -l < "$file")
 echo Ilość wierszy w pliku: $lines
 
 
+declare -i For_split
 For_split=$(($lines / 10))
+For_split=$(($For_split+1))
 
 mkdir splitted
 
