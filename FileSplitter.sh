@@ -11,9 +11,13 @@ lines=$(wc -l < "$file")
 echo Ilość wierszy w pliku: $lines
 
 
-declare -i For_split
-For_split=$(($lines / 10))
-For_split=$(($For_split+1))
+if (($lines % 10 == 0));
+then
+	For_split=$(($lines / 10))
+else
+	For_split=$(($lines / 10))
+	For_split=$(($For_split+1))
+fi
 
 mkdir splitted
 
