@@ -4,7 +4,7 @@ $dir_powiazania = "File dir"
 $dir_klienci = "File dir"
 $dir_transakcje = "File dir"
 
-$dir_HD = "DatawareHouse resource"
+$dir_HD = "Mapped DatawareHouse resource"
 
 
 #tablica lokalizacji
@@ -21,19 +21,19 @@ for ($i=0; $i -lt 5; $i++) {
 $items
 
 for ($i=0; $i -lt 5; $i++) {
-    Copy-Item ($dir_HD + $items[$i]) -Destination C:\PlikiTymczasowe_z_Prod\
+    Copy-Item ($dir_HD + $items[$i]) -Destination C:\TempFolder\
     }
 
-Get-ChildItem 'C:\TempFolder' | Rename-Item -NewName { $_.BaseName.Split('_')[0] + $_.Extension }
+Get-ChildItem 'C:\TempFolder\' | Rename-Item -NewName { $_.BaseName.Split('_')[0] + $_.Extension }
 
 for ($i=0; $i -lt 5; $i++) {
-    $items[$i] = Get-ChildItem -Path "C:\PlikiTymczasowe_z_Prod\" | Sort-Object CreationTime -Descending | Select-Object -ExpandProperty name | Select-Object -Skip $i | Select -First 1 
+    $items[$i] = Get-ChildItem -Path "C:\TempFolder\" | Sort-Object CreationTime -Descending | Select-Object -ExpandProperty name | Select-Object -Skip $i | Select -First 1 
     }
 
 
 
 for ($j=0; $j -lt 5; $j++) {
-Move-Item -Path ("C:\TempFolder" + $items[$j]) -Destination $directory[$j]
+Move-Item -Path ("C:\TempFolder\" + $items[$j]) -Destination $directory[$j]
 } 
 
 
