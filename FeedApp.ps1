@@ -1,39 +1,49 @@
-#lista lokalizacji
-$dir_rachunki = "File dir"
-$dir_powiazania = "File dir"
-$dir_klienci = "File dir"
-$dir_transakcje = "File dir"
+#----SKRYPT ZASILAJACY ŚRODOWISKO TESTOWE PLIKAMI Z HURTOWNI DANCYH----
 
-$dir_HD = "Mapped DatawareHouse resource"
+#--- lista docelowych lokalizacji---
+$dir_rachunki = "dir"
+$dir_powiazania = "dir"
+$dir_klienci = "dir"
+$dir_transakcje = "dir"
+
+#--- ścieżka zasobu Hurtowni---
+$dir_amlHD = "dir_HD"
 
 
-#tablica lokalizacji
-$directory = @($dir_klienci, $dir_transakcje, $dir_transakcje, $dir_rachunki, $dir_powiazania)
+#---tablica lokalizacji---
+$directory = @($dir_klienci, $dir_powiazania, $dir_rachunki, $dir_transakcje, $dir_transakcje)
 
 
-#tablica plików
+#---tablica plików---
 $items = @($klienci, $trans_pxt, $trans_txt, $rachunki, $powiazania)
 
+#---przypisanie posortowanych po dacie modyfikacji nazw plików do tablicy plików---
 for ($i=0; $i -lt 5; $i++) {
-    $items[$i] = Get-ChildItem -Path $dir_HD | Sort-Object CreationTime -Descending | Select-Object -ExpandProperty name | Select-Object -Skip $i | Select -First 1 
+    $items[$i] = Get-ChildItem -Path $dir_amlHD | Sort-Object CreationTime -Descending | Select-Object -ExpandProperty name | Select-Object -Skip $i | Select -First 1 
     }
 
-$items
-
+#---skopiowanie plików z zasobu HD do tymczasowego katalogu---
 for ($i=0; $i -lt 5; $i++) {
-    Copy-Item ($dir_HD + $items[$i]) -Destination C:\TempFolder\
+    Copy-Item ($dir_amlHD + $items[$i]) -Destination C:\TempDir\
     }
 
-Get-ChildItem 'C:\TempFolder\' | Rename-Item -NewName { $_.BaseName.Split('_')[0] + $_.Extension }
+#---zmiana nazwy plików z tymczasowego folderu (skrócenie nazwy do "_" z zachowaniem rozszerzenia)
+Get-ChildItem 'C:\TempDir\' | Rename-Item -NewName { $_.BaseName.Split('_')[0] + $_.Extension }
 
+
+#---nadpisanie tablicy plikow---
+$items = @($klienci,  $powiazania, $rachunki, $trans_pxt, $trans_txt)
+
+
+#---przypisanie posortowanych alfabetycznie plikow do tablicy---
 for ($i=0; $i -lt 5; $i++) {
-    $items[$i] = Get-ChildItem -Path "C:\TempFolder\" | Sort-Object CreationTime -Descending | Select-Object -ExpandProperty name | Select-Object -Skip $i | Select -First 1 
+    $items[$i] = Get-ChildItem -Path C:\TempDir\ | Sort-Object | Select-Object -ExpandProperty name | Select-Object -Skip $i | Select -First 1 
     }
 
 
-
+#---przeniesienie plikow do docelowych katalogów z tymczasowego folderu---
 for ($j=0; $j -lt 5; $j++) {
-Move-Item -Path ("C:\TempFolder\" + $items[$j]) -Destination $directory[$j]
-} 
+    Move-Item -Path ("C:\TempDir\" + $items[$j]) -Destination $directory[$j]
+   } 
 
 
