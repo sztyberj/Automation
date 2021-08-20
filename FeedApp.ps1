@@ -7,34 +7,32 @@ WinServer Config:
     In Action -> Program/script i chose powershell.exe directory(Default dir C:\Windows\system32\WindowsPowershell).
     In Arguments i add FeedApp.ps1 dir.#>
     
-    
-#----SKRYPT ZASILAJACY ŚRODOWISKO TESTOWE PLIKAMI Z HURTOWNI DANCYH----
 
 #--- lista docelowych lokalizacji---
-$dir_rachunki = "dir"
-$dir_powiazania = "dir"
-$dir_klienci = "dir"
-$dir_transakcje = "dir"
+$dir_file1 = "dir"
+$dir_file2 = "dir"
+$dir_file3 = "dir"
+$dir_file4 = "dir"
 
-#--- ścieżka zasobu Hurtowni---
-$dir_amlHD = "dir_HD"
+#--- ścieżka zasobu---
+$dir = "dir_HD"
 
 
 #---tablica lokalizacji---
-$directory = @($dir_klienci, $dir_powiazania, $dir_rachunki, $dir_transakcje, $dir_transakcje)
+$directory = @($dir_file3, $dir_file2, $dir_file1, $dir_file4, $dir_file4)
 
 
 #---tablica plików---
-$items = @($klienci, $trans_pxt, $trans_txt, $rachunki, $powiazania)
+$items = @($file3, $file4_pxt, $file4_txt, $file1, $file2)
 
 #---przypisanie posortowanych po dacie modyfikacji nazw plików do tablicy plików---
 for ($i=0; $i -lt 5; $i++) {
-    $items[$i] = Get-ChildItem -Path $dir_amlHD | Sort-Object CreationTime -Descending | Select-Object -ExpandProperty name | Select-Object -Skip $i | Select -First 1 
+    $items[$i] = Get-ChildItem -Path $dir | Sort-Object CreationTime -Descending | Select-Object -ExpandProperty name | Select-Object -Skip $i | Select -First 1 
     }
 
-#---skopiowanie plików z zasobu HD do tymczasowego katalogu---
+#---skopiowanie plików z zasobu do tymczasowego katalogu---
 for ($i=0; $i -lt 5; $i++) {
-    Copy-Item ($dir_amlHD + $items[$i]) -Destination C:\TempDir\
+    Copy-Item ($dir + $items[$i]) -Destination C:\TempDir\
     }
 
 #---zmiana nazwy plików z tymczasowego folderu (skrócenie nazwy do "_" z zachowaniem rozszerzenia)
@@ -42,7 +40,7 @@ Get-ChildItem 'C:\TempDir\' | Rename-Item -NewName { $_.BaseName.Split('_')[0] +
 
 
 #---nadpisanie tablicy plikow---
-$items = @($klienci,  $powiazania, $rachunki, $trans_pxt, $trans_txt)
+$items = @($file3,  $file2, $file1, $file4_pxt, $file4_txt)
 
 
 #---przypisanie posortowanych alfabetycznie plikow do tablicy---
