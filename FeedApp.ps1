@@ -1,11 +1,11 @@
-<#About the script:
-  The script copies files from Data WareHouse resources to a temporary folder, rename copied file and move all files to the appropriate directory.
+<# O skrypcie:
+  Skrypt przenosi wybrane pliki z zasobu do folderu tymczasowego, zmienia ich nazwy i przenosi do folderu docelowego.
 
-WinServer Config:
-  For the automation the FeedApp process, I create new Task in Task Scheduler. 
-  The feed should run daily, so i add new trigger with this configuration. 
-    In Action -> Program/script i chose powershell.exe directory(Default dir C:\Windows\system32\WindowsPowershell).
-    In Arguments i add FeedApp.ps1 dir.#>
+Konfiguracja środowiska windows:
+  Do automatycznego uruchamiania się skryptu, stworzyłem nowe zadanie w Menadżerze zadań. 
+  Proces powinień uruchamiać się codziennie, więc taki wyzwalacz ustawiłem. 
+    W Akcjach -> Program/script wybrałem lokalizację powershell.exe (Domyślna lokalizacja C:\Windows\system32\WindowsPowershell).
+    W Argumentach dodałem lokalizację skryptu FeedApp.ps1.#>
     
 
 #--- lista docelowych lokalizacji---
