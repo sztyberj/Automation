@@ -1,3 +1,5 @@
+#Skrypt stworzony do dzielenia plików na 10 równych części, wraz ze zmianą pliku.
+
 #!/bin/bash
 ls
 
