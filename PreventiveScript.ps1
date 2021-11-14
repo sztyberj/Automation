@@ -1,11 +1,11 @@
 #-- Test 1 ---
-#Checking file name, 
-$file = 'File dir with blockade example ("_run_app") '
 
-#---If file with blockade exist, change his name---
+$file = 'Pełna ścieżka pliku, przykład blokady: ("_run_app") '
+
+#---Jeżeli plik z blokadą istnieje, zmień jego nazwę (zdejmij blokadę)---
 if (Test-Path -Path $file) {
      try {
-         Rename-Item -Path $file -NewName 'New'		#New name without blockade, example (run_app)
+         Rename-Item -Path $file -NewName 'New'		#Nowa nazwa pliku, na przykład: (run_app)
          
      }
      catch {
@@ -15,7 +15,7 @@ if (Test-Path -Path $file) {
 
  
 #--Test 2 --
-#--Checking services on server, if are stopped, run--
+#--Sprawdzenie czy wybrane usługi na serwerze są uruchomione, jeżeli nie uruchamia je--
  
 $services = 'List of services'
 $services.Count = $max
